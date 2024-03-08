@@ -1,4 +1,4 @@
-package com.example.demo.coffeShop.Service.ServiceImpl;
+package com.example.demo.coffeShop.Service.Impl;
 
 import com.example.demo.coffeShop.Entity.Product;
 import com.example.demo.coffeShop.Repositori.ProductRepositori;

@@ -12,8 +12,17 @@ public class ProductPriceResponse {
     private String id;
     private Integer price;
     private Integer stock;
-    private String productName;
-    private Kategori kategori;
-    private String imageUrl;
+    private ProductResponse productResponse;
     private StoreResponse storeResponse;
+
+    @Override
+    public String toString() {
+        return "ProductPriceResponse{" +
+                "id='" + id + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", productResponse=" + productResponse +
+                ", storeResponse=" + storeResponse +
+                '}';
+    }
 }

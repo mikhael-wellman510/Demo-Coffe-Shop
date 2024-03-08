@@ -1,6 +1,7 @@
 package com.example.demo.coffeShop.Entity;
 
 
+import com.example.demo.coffeShop.Entity.JWT.Customer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +20,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id ;
 
-    @Column(name = "transaction_data" , nullable = false )
+    @Column(name = "transaction_date" , nullable = false )
     private LocalDateTime transactionDate;
 
 

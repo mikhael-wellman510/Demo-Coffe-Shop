@@ -1,4 +1,4 @@
-package com.example.demo.coffeShop.Service.ServiceImpl;
+package com.example.demo.coffeShop.Service.Impl;
 
 import com.example.demo.coffeShop.DTO.Request.StoreRequest;
 import com.example.demo.coffeShop.DTO.Response.StoreResponse;

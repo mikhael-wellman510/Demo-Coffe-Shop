@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -42,9 +43,9 @@ public class JwtUtil {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
             // Todo -> Untuk mendapatkan Customer id dan ketika di decoded dapat
-//            Customer customer = customerService.findByUserCredentialId(appUser.getId());
-//
-//            String customerId = customer.getId();
+            Customer customer = customerService.findByUserCredentialId(appUser.getId());
+
+            String customerId = customer.getId();
 
             String token = JWT.create()
                     .withIssuer(appName)
@@ -53,10 +54,32 @@ public class JwtUtil {
                     .withIssuedAt(Instant.now())
                     .withClaim("role" ,appUser.getRole().name())
                     .withClaim("username", appUser.getUsername())
-//                    .withClaim("customerId" , customerId)
+                    .withClaim("customerId" , customerId)
                     .sign(algorithm);
 
             return token;
+
+        }catch (JWTCreationException e){
+            throw new RuntimeException();
+        }
+    }
+
+    public String generateTokenForgotPassword(String email){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes(StandardCharsets.UTF_8));
+            Instant issuedAt = Instant.now();
+            Instant expiresAt = issuedAt.plusSeconds(60);
+
+            String tokens = JWT.create()
+                    .withIssuer(appName)
+                    .withSubject(email)
+                    .withExpiresAt(Date.from(expiresAt))
+                    .withIssuedAt(Date.from(issuedAt))
+                    .withClaim("email" ,email)
+
+                    .sign(algorithm);
+
+            return tokens;
 
         }catch (JWTCreationException e){
             throw new RuntimeException();
@@ -113,6 +136,19 @@ public class JwtUtil {
                     .sign(algorithm);
             return namaUser;
 
+        }catch (JWTCreationException e){
+            throw new RuntimeException();
+        }
+    }
+
+    public String getInfoTokenForgotPassword(String token){
+        try {
+
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes(StandardCharsets.UTF_8));
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+
+            return decodedJWT.getSubject();
         }catch (JWTCreationException e){
             throw new RuntimeException();
         }
